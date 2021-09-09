@@ -1,20 +1,37 @@
 const express = require('express');
 const { MongoClient } = require('mongodb');
+const bodyParser = require('body-parser');
+const cors = require('cors');
+require('dotenv').config();
 
 const app = express();
+app.use(cors())
+app.use(bodyParser.json());
 
 app.get('/', (req, res) => {
   res.send('Hello World');
 });
 
-
-const uri = `mongodb+srv://doctorsPortal:doctorsPortal@cluster0.do24a.mongodb.net/Appointments?retryWrites=true&w=majority`;
+// database connected uri
+const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.do24a.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 client.connect(err => {
-  const collection = client.db("Appointments").collection("bookings");
-  
+  const appointmentsCollection = client.db("Appointments").collection("bookings");
+
+  // appointments post
+  app.post('/addAppointment', (req, res) => {
+    const appointment = req.body;
+    console.log(appointment);
+    appointmentsCollection.insertOne(appointment)
+      .then(result => {
+        res.send(result.insertedId)
+      })
+      .catch(error => {
+        console.log(error.message);
+      })
+  });
 });
 
 
 
-app.listen(5000);
+app.listen(process.env.PORT || 5000);
