@@ -18,7 +18,7 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 client.connect(err => {
   const appointmentsCollection = client.db("Appointments").collection("bookings");
 
-  // appointments post
+  // appointments post/create
   app.post('/addAppointment', (req, res) => {
     const appointment = req.body;
     console.log(appointment);
@@ -30,6 +30,15 @@ client.connect(err => {
         console.log(error.message);
       })
   });
+
+  // appointments read
+  app.get('/appointments', (req, res) => {
+    appointmentsCollection.find({})
+      .toArray((error, document) => {
+        res.send(document)
+      });
+  });
+
 });
 
 
