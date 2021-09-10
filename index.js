@@ -40,12 +40,12 @@ client.connect(err => {
   });
 
   // appointments read
-  // app.get('/appointments', (req, res) => {
-  //   appointmentsCollection.find({})
-  //     .toArray((error, document) => {
-  //       res.send(document)
-  //     });
-  // });
+  app.get('/appointments', (req, res) => {
+    appointmentsCollection.find({})
+      .toArray((error, document) => {
+        res.send(document)
+      });
+  });
 
 });
 
