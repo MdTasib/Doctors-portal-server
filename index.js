@@ -21,7 +21,6 @@ client.connect(err => {
   // appointments post/create
   app.post('/addAppointment', (req, res) => {
     const appointment = req.body;
-    console.log(appointment);
     appointmentsCollection.insertOne(appointment)
       .then(result => {
         res.send(result.insertedId)
@@ -31,13 +30,22 @@ client.connect(err => {
       })
   });
 
-  // appointments read
-  app.get('/appointments', (req, res) => {
-    appointmentsCollection.find({})
+  // specific date to load appointment
+  app.post('/appointmentsByDate', (req, res) => {
+    const date = req.body;
+    appointmentsCollection.find({ date: date.date })
       .toArray((error, document) => {
-        res.send(document)
-      });
+        res.send(document);
+      })
   });
+
+  // appointments read
+  // app.get('/appointments', (req, res) => {
+  //   appointmentsCollection.find({})
+  //     .toArray((error, document) => {
+  //       res.send(document)
+  //     });
+  // });
 
 });
 
