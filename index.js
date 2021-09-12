@@ -105,6 +105,15 @@ client.connect(err => {
       });
   });
 
+  // check loggedin user is doctor ?
+  app.post('/isDoctor', (req, res) => {
+    const email = req.body.email;
+    doctorCollection.find({ email: email })
+      .toArray((error, doctor) => {
+        res.send(doctor.length > 0);
+      });
+  });
+
 });
 
 
