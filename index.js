@@ -57,19 +57,6 @@ client.connect(err => {
   });
 
   // add doctors
-  // app.post('/addDoctor', (req, res) => {
-  //   const file = req.files.file;
-  //   const name = req.body.name;
-  //   const email = req.body.email;
-  //   file.mv(`${__dirname}/doctors/${file.name}`, error => {
-  //     if (error) {
-  //       console.log(error);
-  //       return res.status(500).send({ message: 'Failed to upload image' });
-  //     }
-  //     return res.status(200).send({ name: file.name, path: `/${file.name}` });
-  //   })
-  // });
-
   app.post('/addDoctor', (req, res) => {
     const file = req.files.file;
     const name = req.body.name;
